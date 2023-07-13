@@ -15,7 +15,8 @@ config = {
 # Establish a secure connection to the MySQL server
 try:
     connection = connect(**config)
-    print("Connected to MySQL server...")
+    # this can be helpful for debugging
+    #print("Connected to MySQL server...")
 except Error as e:
     print(f"Error connecting to MySQL server: {e}.  Are you connected to App's VPN?")
     exit(1)

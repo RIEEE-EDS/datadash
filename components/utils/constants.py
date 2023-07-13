@@ -8,6 +8,7 @@ Version: 1.0
 
 # Import Dependencies
 import math
+
 #
 ## Application constants
 #

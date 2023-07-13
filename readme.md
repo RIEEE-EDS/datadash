@@ -1,6 +1,6 @@
 # RIEEE's DataDash
 
-Welcome to DataDash!  This web application is RIEEE's answer to meeting much of our research partners' data infrastructure demand.  DataDash accomplishes this by allowing RIEEE to deploy web application and database server resources in a code-agnostic, shibboleth-secure, and carefully documented manner throughout the research lifecycle.  To learn more about how this is done and how it benefits research, checkout the Introduction to DataDash dashboard in the Public Dashboards section of the application.
+Welcome to DataDash. RIEEE has developed this web application to effectively address the data infrastructure needs of our research partners. DataDash enables RIEEE to deploy and curate a diverse library of web application and database server resources seamlessly.  It ensures security through shibboleth authentication and provides a standard, accessible documentation and access interface for these resources.  To learn more about how this is done and how it benefits research, checkout the Introduction to DataDash dashboard in the Public Dashboards section of the application.
 
 ## Development Notes
 
