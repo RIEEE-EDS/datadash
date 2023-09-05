@@ -1,14 +1,15 @@
 # Temporary file for connecting to the data server.
 
 from mysql.connector import connect, Error
+from components.utils.config import cfg
 
 # MySQL connection configuration
 config = {
-    'user': 'datadashapp',
-    'password': 'uXINl[k18bT_5Q(G',
-    'host': 'rieeedata.its.appstate.edu',
-    'port': '3306',
-    'database': 'datadash_application',
+    'user': cfg.get('app', 'dbuser'),
+    'password': cfg.get('app', 'dbpass'),
+    'host': cfg.get('app', 'dbhost'),
+    'port': cfg.get('app', 'dbport'),
+    'database': cfg.get('app', 'dbname'),
     'ssl_ca': './assets/rieeedata.crt'
 }
 

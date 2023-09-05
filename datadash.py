@@ -27,6 +27,7 @@ This Dash application was created using the template provided by the Research In
 # Import Dependencies
 from dash import Dash
 import components.maincontainer as mc
+from components.utils.config import cfg
 
 # Import Styles that _have_ to be CSS;
 external_stylesheets = [
@@ -38,15 +39,16 @@ app = Dash(
     __name__, 
     external_stylesheets = external_stylesheets,
     title = "RIEEE | DataDash",
-    update_title = None
+    update_title = None,
+    url_base_pathname = cfg.get('app', 'url_prefix', fallback='/')
 )
 
 # Define Application Layout
 app.layout = mc.layout
 
 # Main script execution (Used for running on the local machine for development)
-if __name__ == '__main__':
-    app.run_server(debug = True)
+#if __name__ == '__main__':
+#    app.run_server(debug = True)
 
 # WSGI Entry Pointer (Used in production deployment)
 server = app.server
