@@ -24,9 +24,14 @@ This Dash application was created using the template provided by the Research In
 
 """
 
+# !!! IMPORTANT: CHANGE TO FALSE BEFORE PUSHING !!!
+LOCAL_DEVELOPMENT = False
+# !!! IMPORTANT: CHANGE TO FALSE BEFORE PUSHING !!!
+
 # Import Dependencies
-from dash import Dash
+import dash
 import components.maincontainer as mc
+import components.utils.login as login
 from components.utils.config import cfg
 
 # Import Styles that _have_ to be CSS;
@@ -35,20 +40,55 @@ external_stylesheets = [
 ]
 
 # Initialize Dash Application
-app = Dash(
+app = dash.Dash(
     __name__, 
     external_stylesheets = external_stylesheets,
     title = "RIEEE | DataDash",
     update_title = None,
-    url_base_pathname = cfg.get('app', 'url_prefix', fallback='/')
+    url_base_pathname = cfg.get('app', 'url_prefix', fallback='/'),
+    suppress_callback_exceptions=True,
 )
 
 # Define Application Layout
-app.layout = mc.layout
+app.layout = dash.html.Div(
+    children = [
+        # A location object tracks the address bar url
+        dash.dcc.Location(id='url'),
+        # Secure container
+        dash.html.Div(id='secure-div')
+    ],
+)
 
-# Main script execution (Used for running on the local machine for development)
-#if __name__ == '__main__':
-#    app.run_server(debug = True)
+# Checks to see if the user is authorized.
+# This is called any time there is a change to the url.
+@dash.callback(
+    dash.Output('secure-div', 'children'),
+    dash.Input('url', 'pathname')
+)
+def authorize(pathname):
 
-# WSGI Entry Pointer (Used in production deployment)
+    shibbInfo = login.userAuthentication()
+
+    userSignedIn = shibbInfo[0]
+
+    UID = shibbInfo[1]
+
+    if userSignedIn :
+        # If the user is authorized, or this is for local development:
+        return mc.layout(True, UID)
+    
+    elif LOCAL_DEVELOPMENT:
+        # login as me for local dev
+        return mc.layout(True, "hefnermw")
+    
+    else :
+        # If the user is not authorized, provide them with the public page
+        return mc.layout(False, "")
+
+# Main script execution for (local development only)
+if __name__ == '__main__' and LOCAL_DEVELOPMENT:
+    # True for hot reloading (leave True)
+    app.run_server(debug = True)
+
+# WSGI Entry Pointer (Used in deployment)
 server = app.server

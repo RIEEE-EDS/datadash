@@ -94,7 +94,7 @@ layout = dash.html.Div(
             style = styles['right-welcome-banner'],
 
             children = [
-                dash.html.H1("Discover RIEEE's DataDash", style = styles['h1']),
+                dash.html.H1("Discover RIEEE DataDash", style = styles['h1']),
 
                 # Load in Welcome banner markdown.
                 dash.dcc.Markdown(
@@ -105,7 +105,7 @@ layout = dash.html.Div(
                         'text-align' : 'center', 
                         'overflow-y' : 'auto', 
                         'margin' : '0px', 
-                        'font-size' : '20px'
+                        'font-size' : '18px'
                     }
                 )
             ]

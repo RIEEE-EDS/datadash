@@ -27,11 +27,10 @@ component_id = "contentarea"
 # Import Dependencies
 import dash.html
 # import components.examplesubcomponent as examplesubcomponent
-import components.applicationsdisplay.container as app_display
+import components.applicationsdisplay.container as applications_container
 import components.welcomebanner as welcomebanner
 import components.footer as footer
 import components.utils.constants as d
-import components.utils.login as login
 import components.utils.sqlconnection as sqlconnection
 
 # STYLES (CSS DICT)
@@ -50,62 +49,57 @@ styles = {
     }
 }
 
-# Returns a user's role, should they have one.
-def get_user_role(username):
-    sql = "SELECT user_type FROM Users WHERE username = %s"
-    values = (username,)
-    sqlconnection.cursor.execute(sql, values)
-    result = sqlconnection.cursor.fetchone()
-    if result is not None:
-        return result[0]
-    else:
-        return None
+
 
 # Render different content dependent upon login
-def authorizedContent() :
-    if login.loggedIn:
+def authorizedContent(userIsSignedIn, UID) :
+
+    if userIsSignedIn:
 
         # If logged in, get the user's role
-        user_role = get_user_role(login.loggedInAs)
+        user_role = sqlconnection.get_user_role(UID)
 
         if user_role is None :
             return [
                 # users that have no specified role just see the public dash
                 welcomebanner.layout,
-                app_display.dynamic_layout("publicdashboards"),
+                applications_container.dynamic_layout("publicdashboards", UID),
                 footer.layout
             ]
+        
         elif user_role == "DEVELOPER" :
             return [
                 # users with the developer role can see the applications that "belong" to them
                 welcomebanner.layout,
-                app_display.dynamic_layout("myapplications"),
-                app_display.dynamic_layout("publicdashboards"),
+                applications_container.dynamic_layout("myapplications", UID),
+                applications_container.dynamic_layout("publicdashboards", UID),
                 footer.layout
             ]
         elif user_role == "ADMIN" :
             return [
                 # admin users have a special display for backend apps and a display for all apps
                 welcomebanner.layout,
-                app_display.dynamic_layout("backend"),
-                app_display.dynamic_layout("adminall"),
-                app_display.dynamic_layout("publicdashboards"),
+                applications_container.dynamic_layout("backend", UID),
+                applications_container.dynamic_layout("adminall", UID),
+                applications_container.dynamic_layout("publicdashboards", UID),
                 footer.layout
                 ]
     else :
+
         # Public Page
         return [
             # If someone is not logged in
             welcomebanner.layout,
-            app_display.dynamic_layout("publicdashboards"),
+            applications_container.dynamic_layout("publicdashboards", UID),
             footer.layout
         ]
 
-# LAYOUT
-layout = dash.html.Div(
-    id = component_id,
-    style = styles['componet'],
-    children = authorizedContent()
-)
+# LAYOUT is dynamic
+def layout(userIsSignedIn, UID) :
+    return dash.html.Div(
+        id = component_id,
+        style = styles['componet'],
+        children = authorizedContent(userIsSignedIn, UID)
+    )
 
 # CALLBACKS (0)

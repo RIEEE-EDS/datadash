@@ -51,13 +51,13 @@ styles = {
 }
 
 # DYNAMIC LAYOUT
-def dynamic_layout(application_type) :
+def dynamic_layout(application_type, UID) :
     return dash.html.Div(
         id = application_type + component_id,
         style = styles['component'],
         children= [
-            top.dynamic_layout(application_type),
-            content.dynamic_layout(application_type)
+            top.dynamic_layout(application_type, UID),
+            content.dynamic_layout(application_type, UID)
         ]
 )
 

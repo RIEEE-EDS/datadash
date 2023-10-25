@@ -71,24 +71,25 @@ styles = {
     }
 }
 
-# LAYOUT
-layout = dash.html.Div(
-    id = component_id,
-    style = styles['component'],
-    children= [
+# LAYOUT is dynamic
+def layout(userIsSignedIn, UID) :
+    return dash.html.Div(
+        id = component_id,
+        style = styles['component'],
+        children= [
 
-        dash.html.Div(
-            style = styles['inner-header'],
-            children = [
-                # West side header content
-                west.layout,
+            dash.html.Div(
+                style = styles['inner-header'],
+                children = [
+                    # West side header content
+                    west.layout,
 
-                # East side header content
-                east.layout
+                    # East side header content
+                    east.layout(userIsSignedIn, UID)
 
-            ]
-        )
-    ]
-)
+                ]
+            )
+        ]
+    )
 
 # CALLBACKS (0)

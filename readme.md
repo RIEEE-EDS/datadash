@@ -1,6 +1,10 @@
-# RIEEE's DataDash
+# RIEEE DataDash
 
-Welcome to DataDash. RIEEE has developed this web application to effectively address the data infrastructure needs of our research partners. DataDash enables RIEEE to deploy and curate a diverse library of web application and database server resources seamlessly.  It ensures security through shibboleth authentication and provides a standard, accessible documentation and access interface for these resources.  To learn more about how this is done and how it benefits research, checkout the Introduction to DataDash dashboard in the Public Dashboards section of the application.
+RIEEE DataDash is a lightweight, open-source, two-factor secure web application platform purpose-built to facilitate the innovative research of Research Institute of Environment, Energy, and Economics partners here at AppState.
+
+With DataDash, RIEEE has developed full-stack capacity for secure, highly interactive web applications for research - no expensive or restrictive third-party software licenses required, and no strategic classroom-freemium model.
+
+RIEEE also hopes to expand data science competency on campus and significantly lower the threshold for research application development and maintenence. To achieve this, we have been developing this platform with self-documentation practices, open access guides, templates, and educational resources for application development.
 
 ## Development Notes
 
@@ -38,10 +42,4 @@ pip install -r requirements.txt
 python datadash.py
 ```
 
-## Database Details
 
-https://datadash-admin-dev.appstate.edu/
-
-SQL Credentials:
-datadashapp
-uXINl[k18bT_5Q(G

@@ -44,13 +44,14 @@ styles = {
     }
 }
 
-# LAYOUT
-layout = dash.html.Div(
+# LAYOUT is dynamic
+def layout(userIsSignedIn, UID) :
+    return dash.html.Div(
     id = component_id,
     style = styles['component'],
     children= [
-        header.layout,
-        contentarea.layout
+        header.layout(userIsSignedIn, UID),
+        contentarea.layout(userIsSignedIn, UID),
     ]
 )
 

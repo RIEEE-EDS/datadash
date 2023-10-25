@@ -27,7 +27,6 @@ component_id = "east"
 # Import Dependencies
 import dash.html.Div
 # import components.examplesubcomponent as examplesubcomponent
-import components.utils.login as login
 
 # STYLES (CSS DICT)
 styles = {
@@ -47,27 +46,33 @@ styles = {
     }
 }
 
-# Define behavior on whether or not someone is logged in through shibboleth
-def authorizedContent() :
-    if login.loggedIn :
+# SIGN ON/SIGN OFF
+def authorizedContent(userIsSignedIn, UID) :
+    if userIsSignedIn :
         return [
-            dash.html.P("Welcome, " + login.loggedInAs + "."),
-            dash.html.Img(src="./assets/icons/id_GOLD.png", title = "You are logged in as " + login.loggedInAs, style = {'height' : '52px'}), # Info icon set to H1 Height
-            dash.html.A("Logout", title = "Click here to logout.", href="./", style = styles['login-link'])
+            dash.html.P("Welcome, " + UID + "."),
+            dash.html.Img(
+                src="./assets/icons/id_GOLD.png", 
+                title = "You are logged in as " + UID, 
+                style = {'height' : '32px'}), # Info icon set to H1 Height
+            dash.html.A("Logout", title = "Click here to logout.", href="/Shibboleth.sso/Logout", style = styles['login-link'])
         ]
     else :
         return [
-            # TODO: Fix login and logout links once we know what to do about shibboleth
             dash.html.P("Public View"),
-            dash.html.Img(src="./assets/icons/international_GOLD.png", title = "DataDash Public View", style = {'height' : '52px'}), # Info icon set to H1 Height
-            dash.html.A("Shibboleth Login", title = "Click here to log in.", href="./", style = styles['login-link'])
+            dash.html.Img(
+                src="./assets/icons/international_GOLD.png", 
+                title = "DataDash Public View", 
+                style = {'height' : '32px'}), # Info icon set to H1 Height
+            dash.html.A("Shibboleth Login", title = "Click here to log in.", href="/Shibboleth.sso/Login", style = styles['login-link'])
         ]
 
-# LAYOUT
-layout = dash.html.Div(
-    id = component_id,
-    style = styles["component"],
-    children = authorizedContent()
-)
+# LAYOUT is dynamic
+def layout(userIsSignedIn, UID) :
+    return dash.html.Div(
+        id = component_id,
+        style = styles["component"],
+        children = authorizedContent(userIsSignedIn, UID)
+    )
 
 # CALLBACKS (0)

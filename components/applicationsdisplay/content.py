@@ -28,7 +28,6 @@ component_id = "content"
 import dash.html.Div
 # import components.examplesubcomponent as examplesubcomponent
 import components.utils.sqlconnection as sqlconnection
-import components.utils.login as login
 import components.utils.constants as d
 
 # STYLES (CSS DICT)
@@ -106,26 +105,7 @@ def thumbnail_style(image):
         'align-items': 'center'
     }
 
-# This function is just a helper function to return application records in a nice format
-def format_application_records(applications):
-    formatted_records = {
-        'title': [],
-        'description': [],
-        'author': [],
-        'link': [],
-        'thumbnail': [],
-        'privacy' : []
-    }
-    
-    for app in applications:
-        formatted_records['title'].append(app[1])
-        formatted_records['description'].append(app[2])
-        formatted_records['author'].append(app[3])
-        formatted_records['link'].append(app[5])
-        formatted_records['thumbnail'].append(app[6])
-        formatted_records['privacy'].append(app[7])
-    
-    return formatted_records
+
 
 # For public/resticted inset thumbnail
 def privacy_indicator(privacy_level):
@@ -136,69 +116,29 @@ def privacy_indicator(privacy_level):
     else :
         return "./assets/icons/no_border_technology_BW.png"
 
-# Function to retrieve applications belonging to a user
-def get_applications_by_user(username):
-    sql = '''
-    SELECT a.app_id, a.title, a.description, a.author, a.doi, a.link, a.thumbnail, a.permission_level
-    FROM Applications a
-    JOIN User_Application_Permissions p ON p.app_id = a.app_id
-    JOIN Users u ON u.username = p.username
-    WHERE u.username = %s
-    '''
-    values = (username,)
-    sqlconnection.cursor.execute(sql, values)
-    result = sqlconnection.cursor.fetchall()
-    return format_application_records(result)
 
-# Function to retrieve public applications
-def get_public_applications():
-    sql = '''
-    SELECT app_id, title, description, author, doi, link, thumbnail, permission_level
-    FROM Applications
-    WHERE permission_level = 'Public'
-    '''
-    sqlconnection.cursor.execute(sql)
-    result = sqlconnection.cursor.fetchall()
-    return format_application_records(result)
 
-# Function to retrieve backend applications
-def get_backend_applications():
-    sql = '''
-    SELECT app_id, title, description, author, doi, link, thumbnail, permission_level
-    FROM Applications
-    WHERE permission_level = 'Backend'
-    '''
-    sqlconnection.cursor.execute(sql)
-    result = sqlconnection.cursor.fetchall()
-    return format_application_records(result)
-
-# Function to retrieve all applications fpr admins
-def get_admin_all():
-    sql = '''
-    SELECT app_id, title, description, author, doi, link, thumbnail, permission_level
-    FROM Applications
-    '''
-    sqlconnection.cursor.execute(sql)
-    result = sqlconnection.cursor.fetchall()
-    return format_application_records(result)
-
-def buildDashboardOptions(application_type):
+def buildDashboardOptions(application_type, UID):
 
     component_children = []
 
     # Get appropriate application records for the application type
     if (application_type == "publicdashboards") :
         # Display public dashboards
-        app_records = get_public_applications()
+        app_records = sqlconnection.get_public_applications()
+
     elif (application_type == "myapplications") :
         # My Applications
-        app_records = get_applications_by_user(login.loggedInAs)
+        app_records = sqlconnection.get_applications_by_user(UID)
+
     elif (application_type == 'backend') :
         # Backend for Admin only
-        app_records = get_backend_applications()
+        app_records = sqlconnection.get_backend_applications()
+
     elif (application_type == 'adminall') :
         # Backend for Admin only
-        app_records = get_admin_all()
+        app_records = sqlconnection.get_admin_all()
+
     else :
         return component_children
 
@@ -261,11 +201,11 @@ def buildDashboardOptions(application_type):
     return component_children
 
 # DYNAMIC LAYOUT
-def dynamic_layout(application_type) :
+def dynamic_layout(application_type, UID) :
     return dash.html.Div(
     id = application_type + component_id,
     style = styles['component'],
-    children = buildDashboardOptions(application_type)
+    children = buildDashboardOptions(application_type, UID)
 )
 
 # CALLBACKS (0)

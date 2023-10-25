@@ -28,7 +28,6 @@ component_id = "containertop"
 import dash.html
 # import components.examplesubcomponent as examplesubcomponent
 import components.utils.constants as d
-import components.utils.login
 
 # STYLES (CSS DICT)
 styles = {
@@ -58,7 +57,7 @@ styles = {
 }
 
 # DYNAMIC LAYOUT (Think of this component as starting here)
-def dynamic_layout(application_type) :
+def dynamic_layout(application_type, UID) :
 
     # Get appropriate strings for the different application display area types:
     if (application_type == "publicdashboards") :
@@ -68,7 +67,7 @@ def dynamic_layout(application_type) :
         altxt = information
     elif (application_type == "myapplications") :
         # My Applications
-        title = components.utils.login.loggedInAs + "'s Applications"
+        title = UID + "'s Applications"
         information = "These applications are directly associated with your user account.  Public applications are indicated with a globe icon."
         altxt = information
     elif (application_type == 'backend') :
