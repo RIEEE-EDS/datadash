@@ -33,10 +33,9 @@ import components.contentarea as contentarea
 # STYLES (CSS DICT)
 styles = {
     'component' : {
-        'background-image': 'url(/assets/thumbnails/Stock_1.jpg)',
         'background-position': 'center',  # Center the background image
         'background-size': 'cover',  # Adjust the background image size
-        'background-image' : 'url("./assets/thumbnails/Stock_1.jpg")',  # Add the path to your image file or provide a URL
+        'background-image' : 'url("./assets/images/Stock_4.jpg")',  # Add the path to your image file or provide a URL
         'position': 'fixed',
         'width': '100%',
         'height': '100%',

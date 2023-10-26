@@ -40,6 +40,7 @@ styles = {
         'height' : '100%',
         'margin': '0 auto',
         'padding-top': d.header_height,
+        'background': 'linear-gradient(to right, transparent, black, transparent)',
 
         # organize application display containers and other content
         'display' : 'flex',

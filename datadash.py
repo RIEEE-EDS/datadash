@@ -94,6 +94,27 @@ def authorize(pathname, hash):
 
     return mc.layout(userSignedIn, UID, userRole), authorizationToken
 
+# Boilerplate index HTML
+app.index_string = '''
+<!DOCTYPE html>
+<html>
+    <head>
+        {%metas%}
+        <title>{%title%}</title>
+        {%favicon%}
+        {%css%}
+    </head>
+    <body>
+        {%app_entry%}
+        <footer>
+            {%config%}
+            {%scripts%}
+            {%renderer%}
+        </footer>
+    </body>
+</html>
+'''
+
 # Main script execution for (local development only)
 if __name__ == '__main__' and LOCAL_DEVELOPMENT:
     # True for hot reloading
