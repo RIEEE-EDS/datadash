@@ -25,7 +25,7 @@ This Dash application was created using the template provided by the Research In
 """
 
 # !!! IMPORTANT: CHANGE TO FALSE BEFORE PUSHING !!!
-LOCAL_DEVELOPMENT = False
+LOCAL_DEVELOPMENT = True
 # !!! IMPORTANT: CHANGE TO FALSE BEFORE PUSHING !!!
 
 # Import Dependencies
@@ -54,6 +54,9 @@ app.layout = dash.html.Div(
     children = [
         # A location object tracks the address bar url
         dash.dcc.Location(id='url'),
+
+        dash.dcc.Store(id='session-memory'),
+
         # Secure container
         dash.html.Div(id='secure-div')
     ],
@@ -62,6 +65,7 @@ app.layout = dash.html.Div(
 # Checks to see if the user is authorized.
 # This is called any time there is a change to the url.
 @dash.callback(
+    dash.Output('session', 'children'),
     dash.Output('secure-div', 'children'),
     dash.Input('url', 'pathname')
 )
@@ -74,16 +78,16 @@ def authorize(pathname):
     UID = shibbInfo[1]
 
     if userSignedIn :
-        # If the user is authorized, or this is for local development:
+        # If the user is authed or this is for local development:
         return mc.layout(True, UID)
     
     elif LOCAL_DEVELOPMENT:
         # login as me for local dev
         return mc.layout(True, "hefnermw")
     
-    else :
+    else:
         # If the user is not authorized, provide them with the public page
-        return mc.layout(False, "")
+        return mc.layout(False, ""), dash.no_update
 
 # Main script execution for (local development only)
 if __name__ == '__main__' and LOCAL_DEVELOPMENT:
