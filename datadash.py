@@ -25,7 +25,7 @@ This Dash application was created using the template provided by the Research In
 """
 
 # !!! IMPORTANT: CHANGE TO FALSE BEFORE PUSHING !!!
-LOCAL_DEVELOPMENT = True
+LOCAL_DEVELOPMENT = False
 # !!! IMPORTANT: CHANGE TO FALSE BEFORE PUSHING !!!
 
 # Import Dependencies
