@@ -55,7 +55,7 @@ app.layout = dash.html.Div(
         # A location object tracks the address bar url
         dash.dcc.Location(id='url'),
 
-        dash.dcc.Store(id='session-memory'),
+        dash.dcc.Store(id='anti-memorization'),
 
         # Secure container
         dash.html.Div(id='secure-div')
@@ -66,6 +66,7 @@ app.layout = dash.html.Div(
 # This is called any time there is a change to the url.
 @dash.callback(
     dash.Output('secure-div', 'children'),
+    dash.Output('anti-memorization', 'data'),
     dash.Input('url', 'pathname')
 )
 def authorize(pathname):
@@ -76,13 +77,13 @@ def authorize(pathname):
 
     UID = shibbInfo[1]
 
-    if userSignedIn :
+    if userSignedIn:
         # If the user is authed or this is for local development:
-        return mc.layout(True, UID)
+        return mc.layout(True, UID), dash.no_update
     
     elif LOCAL_DEVELOPMENT:
         # login as me for local dev
-        return mc.layout(True, "hefnermw")
+        return mc.layout(True, "hefnermw"), dash.no_update
     
     else:
         # If the user is not authorized, provide them with the public page
