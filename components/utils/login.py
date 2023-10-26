@@ -17,9 +17,9 @@ def userAuthentication():
         # Get the username
         UID = flask.request.headers['Uid']
 
-        return [True, UID]
+        return [True, UID, dataserver.get_user_role(UID)]
     
     else :
 
-        return [False, ""]
+        return [False, None, None]
 

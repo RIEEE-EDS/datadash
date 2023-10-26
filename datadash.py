@@ -25,7 +25,7 @@ This Dash application was created using the template provided by the Research In
 """
 
 # !!! IMPORTANT: CHANGE TO FALSE BEFORE PUSHING !!!
-LOCAL_DEVELOPMENT = False
+LOCAL_DEVELOPMENT = True
 # !!! IMPORTANT: CHANGE TO FALSE BEFORE PUSHING !!!
 
 # Import Dependencies
@@ -55,39 +55,49 @@ app.layout = dash.html.Div(
         # A location object tracks the address bar url
         dash.dcc.Location(id='url'),
 
-        dash.dcc.Store(id='anti-memorization'),
+        # Used to prevent cacheing of authorization
+        dash.dcc.Store(id='authorization-anti-memorization'),
 
-        # Secure container
+        # Secure div holder for main container
         dash.html.Div(id='secure-div')
     ],
 )
 
-# Checks to see if the user is authorized.
+# Checks to see if the user is authorized and returns 
+# the main container as the app layout, passing it
+# user credentials.
+#
 # This is called any time there is a change to the url.
+#
+# The second output is to provide a place to include
+# "no_update" as an output.  Dash does not memorize 
+# callbacks whose output contains "no_update."
 @dash.callback(
     dash.Output('secure-div', 'children'),
-    dash.Output('anti-memorization', 'data'),
+    dash.Output('authorization-anti-memorization', 'data'),
     dash.Input('url', 'pathname')
 )
 def authorize(pathname):
 
+    # Grab http request header metadata
     shibbInfo = login.userAuthentication()
 
+    # Is the user signed in through shibboleth? (bool)
     userSignedIn = shibbInfo[0]
 
+    # Username or None
     UID = shibbInfo[1]
 
-    if userSignedIn:
-        # If the user is authed or this is for local development:
-        return mc.layout(True, UID), dash.no_update
-    
-    elif LOCAL_DEVELOPMENT:
-        # login as me for local dev
-        return mc.layout(True, "hefnermw"), dash.no_update
+    # DataDash user role from application metadata on the data server or None
+    userRole = shibbInfo[2]
+
+    if LOCAL_DEVELOPMENT:
+        # For local development, return an admin view
+        return mc.layout(True, "LOCAL_DEVELOPER", "ADMIN"), dash.no_update
     
     else:
-        # If the user is not authorized, provide them with the public page
-        return mc.layout(False, ""), dash.no_update
+        # Return the main container layout, passing it user credentials.
+        return mc.layout(userSignedIn, UID, userRole), dash.no_update
 
 # Main script execution for (local development only)
 if __name__ == '__main__' and LOCAL_DEVELOPMENT:

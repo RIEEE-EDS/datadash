@@ -52,14 +52,11 @@ styles = {
 
 
 # Render different content dependent upon login
-def authorizedContent(userIsSignedIn, UID) :
+def authorizedContent(userIsSignedIn, UID, userRole) :
 
     if userIsSignedIn:
 
-        # If logged in, get the user's role
-        user_role = sqlconnection.get_user_role(UID)
-
-        if user_role is None :
+        if userRole is None :
             return [
                 # users that have no specified role just see the public dash
                 welcomebanner.layout,
@@ -67,7 +64,7 @@ def authorizedContent(userIsSignedIn, UID) :
                 footer.layout
             ]
         
-        elif user_role == "DEVELOPER" :
+        elif userRole == "DEVELOPER" :
             return [
                 # users with the developer role can see the applications that "belong" to them
                 welcomebanner.layout,
@@ -75,7 +72,8 @@ def authorizedContent(userIsSignedIn, UID) :
                 applications_container.dynamic_layout("publicdashboards", UID),
                 footer.layout
             ]
-        elif user_role == "ADMIN" :
+        
+        elif userRole == "ADMIN" :
             return [
                 # admin users have a special display for backend apps and a display for all apps
                 welcomebanner.layout,
@@ -84,6 +82,7 @@ def authorizedContent(userIsSignedIn, UID) :
                 applications_container.dynamic_layout("publicdashboards", UID),
                 footer.layout
                 ]
+        
     else :
 
         # Public Page
@@ -95,11 +94,11 @@ def authorizedContent(userIsSignedIn, UID) :
         ]
 
 # LAYOUT is dynamic
-def layout(userIsSignedIn, UID) :
+def layout(userIsSignedIn, UID, userRole) :
     return dash.html.Div(
         id = component_id,
         style = styles['componet'],
-        children = authorizedContent(userIsSignedIn, UID)
+        children = authorizedContent(userIsSignedIn, UID, userRole)
     )
 
 # CALLBACKS (0)

@@ -33,16 +33,16 @@ styles = {
     # CSS Dictionary goes here.  Format:
     # 'css-example-attribute' : 'value',
     'component' : {
-        'display' : 'flex',
-        'flex-flow' : 'row no-wrap',
-        'align-items' : 'center',
-        'justify-content' : 'space-between',
-        'max-width' : '300px',
-        'flex': '1 1 auto'  # This line is added
+        'display': 'flex',
+        'flex-direction': 'row',
+        'align-items': 'center',
+        'justify-content': 'flex-end',  # Change to right-justify
+        'max-width': '300px',
+        'flex': '1 1 auto',
     },
 
-    'login-link' : {
-        'color' : '#FFF',
+    'login-link': {
+        'color': '#FFF',
     }
 }
 
@@ -54,8 +54,12 @@ def authorizedContent(userIsSignedIn, UID) :
             dash.html.Img(
                 src="./assets/icons/id_GOLD.png", 
                 title = "You are logged in as " + UID, 
-                style = {'height' : '32px'}), # Info icon set to H1 Height
-            dash.html.A("Logout", title = "Click here to logout.", href="/Shibboleth.sso/Logout", style = styles['login-link'])
+                style = {
+                    'height' : '32px', 
+                    'margin-left' : '10px', 
+                    'margin-right' : '10px'
+                    }), # Info icon set to H1 Height
+            dash.html.A("  Logout", title = "Click here to logout.", href="/Shibboleth.sso/Logout", style = styles['login-link'])
         ]
     else :
         return [
@@ -63,8 +67,12 @@ def authorizedContent(userIsSignedIn, UID) :
             dash.html.Img(
                 src="./assets/icons/international_GOLD.png", 
                 title = "DataDash Public View", 
-                style = {'height' : '32px'}), # Info icon set to H1 Height
-            dash.html.A("Shibboleth Login", title = "Click here to log in.", href="/Shibboleth.sso/Login", style = styles['login-link'])
+                style = {
+                    'height' : '32px', 
+                    'margin-left' : '10px', 
+                    'margin-right' : '10px'
+                    }), # Info icon set to H1 Height
+            dash.html.A("  Shibboleth Login", title = "Click here to log in.", href="/Shibboleth.sso/Login", style = styles['login-link'])
         ]
 
 # LAYOUT is dynamic
