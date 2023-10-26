@@ -7,8 +7,6 @@ import components.utils.sqlconnection as dataserver
 
 def userAuthentication(LOCAL_DEVELOPMENT, hash):
 
-    print("[[[USER AUTHENTICATION]]]")
-
     # If developing locally, return a special admin view
     if LOCAL_DEVELOPMENT:
 

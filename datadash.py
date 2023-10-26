@@ -92,8 +92,6 @@ def authorize(pathname, hash):
     # DataDash user role from application metadata on the data server or None
     userRole = shibbInfo[2]
 
-    print("User " + UID + " is now authorized as a(n) " + userRole + " with secure token " + authorizationToken + "\n")
-
     return mc.layout(userSignedIn, UID, userRole), authorizationToken
 
 # Main script execution for (local development only)
