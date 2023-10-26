@@ -65,7 +65,6 @@ app.layout = dash.html.Div(
 # Checks to see if the user is authorized.
 # This is called any time there is a change to the url.
 @dash.callback(
-    dash.Output('session', 'children'),
     dash.Output('secure-div', 'children'),
     dash.Input('url', 'pathname')
 )
