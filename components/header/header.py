@@ -51,6 +51,7 @@ styles = {
         'align-items' : 'center',
         'justify-content' : 'center',
         'overflow-x' : 'hidden',
+        'overflow-y' : 'hidden',
 
         # Header style
         'background-color' : '#000000',

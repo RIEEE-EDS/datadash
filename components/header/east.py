@@ -37,7 +37,7 @@ styles = {
         'flex-direction': 'row',
         'align-items': 'center',
         'justify-content': 'flex-end',  # Change to right-justify
-        'max-width': '300px',
+        'max-width': '400px',
         'flex': '1 1 auto',
     },
 

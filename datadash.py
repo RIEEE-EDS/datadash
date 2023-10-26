@@ -30,6 +30,7 @@ LOCAL_DEVELOPMENT = False
 
 # Import Dependencies
 import dash
+import secrets
 import components.maincontainer as mc
 import components.utils.login as login
 from components.utils.config import cfg
@@ -55,9 +56,6 @@ app.layout = dash.html.Div(
         # A location object tracks the address bar url
         dash.dcc.Location(id='url'),
 
-        # Used to prevent cacheing of authorization
-        dash.dcc.Store(id='authorization-anti-memorization'),
-
         # Secure div holder for main container
         dash.html.Div(id='secure-div')
     ],
@@ -69,18 +67,21 @@ app.layout = dash.html.Div(
 #
 # This is called any time there is a change to the url.
 #
-# The second output is to provide a place to include
-# "no_update" as an output.  Dash does not memorize 
-# callbacks whose output contains "no_update."
+# The second input is to prevent memorization.
 @dash.callback(
     dash.Output('secure-div', 'children'),
-    dash.Output('authorization-anti-memorization', 'data'),
-    dash.Input('url', 'pathname')
+    dash.Output('url', 'hash'),
+    dash.Input('url', 'pathname'),
+    dash.State('url', 'hash'),
+    cache_timeout = 0
 )
-def authorize(pathname):
+def authorize(pathname, hash):
 
-    # Grab http request header metadata
-    shibbInfo = login.userAuthentication()
+    # DataDash Authorization Token
+    authorizationToken = secrets.token_hex()
+
+    # Grab https request header / metadata
+    shibbInfo = login.userAuthentication(LOCAL_DEVELOPMENT, hash)
 
     # Is the user signed in through shibboleth? (bool)
     userSignedIn = shibbInfo[0]
@@ -91,18 +92,14 @@ def authorize(pathname):
     # DataDash user role from application metadata on the data server or None
     userRole = shibbInfo[2]
 
-    if LOCAL_DEVELOPMENT:
-        # For local development, return an admin view
-        return mc.layout(True, "LOCAL_DEVELOPER", "ADMIN"), dash.no_update
-    
-    else:
-        # Return the main container layout, passing it user credentials.
-        return mc.layout(userSignedIn, UID, userRole), dash.no_update
+    print("User " + UID + " is now authorized as a(n) " + userRole + " with secure token " + authorizationToken + "\n")
+
+    return mc.layout(userSignedIn, UID, userRole), authorizationToken
 
 # Main script execution for (local development only)
 if __name__ == '__main__' and LOCAL_DEVELOPMENT:
-    # True for hot reloading (leave True)
+    # True for hot reloading
     app.run_server(debug = True)
 
 # WSGI Entry Pointer (Used in deployment)
-server = app.server
+server = app.server 

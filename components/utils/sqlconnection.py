@@ -1,5 +1,3 @@
-# Temporary file for connecting to the data server.
-
 from mysql.connector import connect, Error
 from components.utils.config import cfg
 
@@ -13,30 +11,33 @@ config = {
     'ssl_ca': './assets/rieeedata.crt'
 }
 
-# Establish a secure connection to the MySQL server
-try:
-    connection = connect(**config)
-    # this can be helpful for debugging
-    #print("Connected to MySQL server...")
-except Error as e:
-    print(f"Error connecting to MySQL server: {e}.  Are you connected to App's VPN?")
-    exit(1)
-
-# Create a cursor object to execute SQL queries
-cursor = connection.cursor()
+# Function to establish a MySQL connection
+def connect_to_mysql():
+    try:
+        connection = connect(**config)
+        # This can be helpful for debugging
+        # print("Connected to MySQL server...")
+        return connection
+    except Error as e:
+        print(f"Error connecting to MySQL server: {e}. Are you connected to App's VPN?")
+        exit(1)
 
 # Returns a user's role, should they have one.
-def get_user_role(username):
+def get_user_role(username, hash):
+
+    connection = connect_to_mysql()
+    cursor = connection.cursor()
     sql = "SELECT user_type FROM Users WHERE username = %s"
     values = (username,)
     cursor.execute(sql, values)
     result = cursor.fetchone()
+
     if result is not None:
         return result[0]
     else:
         return None
 
-# This function is just a helper function to return application records in a nice format
+# Helper function to format application records
 def format_application_records(applications):
     formatted_records = {
         'title': [],
@@ -44,7 +45,7 @@ def format_application_records(applications):
         'author': [],
         'link': [],
         'thumbnail': [],
-        'privacy' : []
+        'privacy': []
     }
     
     for app in applications:
@@ -59,6 +60,9 @@ def format_application_records(applications):
 
 # Function to retrieve applications belonging to a user
 def get_applications_by_user(username):
+    connection = connect_to_mysql()
+    cursor = connection.cursor()
+    
     sql = '''
     SELECT a.app_id, a.title, a.description, a.author, a.doi, a.link, a.thumbnail, a.permission_level
     FROM Applications a
@@ -73,6 +77,9 @@ def get_applications_by_user(username):
 
 # Function to retrieve public applications
 def get_public_applications():
+    connection = connect_to_mysql()
+    cursor = connection.cursor()
+    
     sql = '''
     SELECT app_id, title, description, author, doi, link, thumbnail, permission_level
     FROM Applications
@@ -84,6 +91,9 @@ def get_public_applications():
 
 # Function to retrieve backend applications
 def get_backend_applications():
+    connection = connect_to_mysql()
+    cursor = connection.cursor()
+    
     sql = '''
     SELECT app_id, title, description, author, doi, link, thumbnail, permission_level
     FROM Applications
@@ -93,8 +103,11 @@ def get_backend_applications():
     result = cursor.fetchall()
     return format_application_records(result)
 
-# Function to retrieve all applications fpr admins
+# Function to retrieve all applications for admins
 def get_admin_all():
+    connection = connect_to_mysql()
+    cursor = connection.cursor()
+    
     sql = '''
     SELECT app_id, title, description, author, doi, link, thumbnail, permission_level
     FROM Applications
