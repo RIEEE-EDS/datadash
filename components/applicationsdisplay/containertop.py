@@ -1,12 +1,15 @@
 """
 Module/Script Name: containertop.py
+
 Author: M. W. Hefner
 
 Created: 7/01/2023
-Last Modified: 7/12/2023
+
+Last Modified: 10/28/2023
 
 Project: RIEEE DataDash
-Project Version Id: 1.0
+
+Last Update Project Version: 1.0.0
 
 Script Description: This script defines the style, layout, and callback functionality of the contentcontainertop.
 
@@ -28,33 +31,6 @@ component_id = "containertop"
 import dash.html
 # import components.examplesubcomponent as examplesubcomponent
 import components.utils.constants as d
-
-# STYLES (CSS DICT)
-styles = {
-    'component' : {
-        # Behavior
-        'display' : 'flex',
-        'flex-flow' : 'row nowrap',
-
-        'align-items' : 'center',
-        'justify-content' : 'space-between',
-
-        'margin': '0px',
-        'padding': '10px',
-
-        #'height': d.header_height,
-        'color': 'white',
-        'border-bottom': '3px solid ' + d.appstate_gold,
-        'background-color' : 'black',
-        'border-top-left-radius': '10px',
-        'border-top-right-radius': '10px',
-    },
-
-    'h2' : {
-        'margin' : '0', 
-        'padding' : '0',
-    }
-}
 
 # DYNAMIC LAYOUT (Think of this component as starting here)
 def dynamic_layout(application_type, UID) :
@@ -87,11 +63,10 @@ def dynamic_layout(application_type, UID) :
 
     # Return appropriate heading for the application display
     return dash.html.Div(
-    id = application_type + component_id,
-    style = styles['component'],
-    children= [
-        dash.html.H2(title, style = styles['h2']),
-        dash.html.Img(src="./assets/icons/information_BW.png", title = information, alt = altxt, style = {'height' : '32px'}) # Info icon set to H1 Height
+    className = "appdisplaycontainertop",
+    children = [
+        dash.html.H2(title),
+        dash.html.Img(src="./assets/icons/information_BW.png", title = information, alt = altxt) # Info icon set to H1 Height
     ]
 )
 

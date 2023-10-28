@@ -1,12 +1,15 @@
 """
 Module/Script Name: welcomebanner.py
+
 Author: M. W. Hefner
 
 Created: 7/07/2023
-Last Modified: 7/13/2023
+
+Last Modified: 10/28/2023
 
 Project: RIEEE DataDash
-Project Version Id: 1.0
+
+Last Update Project Version: 1.0.0
 
 Script Description: This script defines the style, layout, and callback functionality of the welcomebanner.
 
@@ -29,50 +32,12 @@ import dash.html.Div
 # import components.examplesubcomponent as examplesubcomponent
 import components.utils.constants as d
 
-# STYLES (CSS DICT)
-styles = {
-    # CSS Dictionary goes here.
-    'component' : {
-        # Display Behavior
-        'display' : 'flex',
-        'flex-flow' : 'row nowrap',
-        'justify-content' : 'space-around',
-        'align-items' : 'center',
 
-        # Appearance
-        'margin': '0 auto',
-        'width' : '100%',
-        'padding' : '30px',
-        'box-sizing' : 'border-box',
-        'border-bottom-left-radius': '50px',
-        'border-bottom-right-radius': '10px',
-        'border-top-left-radius': '10px',
-        'border-top-right-radius': '50px',
-        'background-image' : 'linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.75)',
-        'margin-top' : '40px',
-        'margin-bottom' : '40px'
-
-    },
-
-    'h1' : {
-        'text-align' : 'center',
-        'margin' : '10px',
-    },
-
-    'left-welcome-banner' : {
-        'margin' : '20px',
-    },
-
-    'right-welcome-banner' : {
-        'margin' : '20px',
-    },
-
-}
 
 # LAYOUT
 layout = dash.html.Div(
     id = component_id,
-    style = styles['component'],
+
     title = "Welcome to RIEEE's DataDash",
     children= [
 
@@ -80,7 +45,7 @@ layout = dash.html.Div(
 
         dash.html.Div(
             
-            style = styles['left-welcome-banner'],
+            id = 'left-welcome-banner',
 
             children = [
                 dash.html.Img(src = "./assets/images/RIEEE_LOGO.svg", height=300)
@@ -91,10 +56,10 @@ layout = dash.html.Div(
 
         dash.html.Div(
 
-            style = styles['right-welcome-banner'],
+            id = 'right-welcome-banner',
 
             children = [
-                dash.html.H1("Discover RIEEE DataDash", style = styles['h1']),
+                dash.html.H1("Discover RIEEE DataDash"),
 
                 # Load in Welcome banner markdown.
                 dash.dcc.Markdown(
@@ -102,10 +67,12 @@ layout = dash.html.Div(
                     children = d.welcomebanner_markdown, 
 
                     style = {
-                        'text-align' : 'center', 
+                        'border-bottom' : '1px solid white',
+                        'max-height' : '300px',
                         'overflow-y' : 'auto', 
                         'margin' : '0px', 
-                        'font-size' : '18px'
+                        'font-size' : '18px',
+                        'padding' : '15px'
                     }
                 )
             ]

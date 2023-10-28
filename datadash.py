@@ -1,14 +1,17 @@
 """
 Module/Script Name: datadash.py
+
 Author: M. W. Hefner
 
 Created: 7/01/2023
-Last Modified: 7/05/2023
+
+Last Modified: 10/28/2023
 
 Project: RIEEE DataDash
-Project Version Id: 1.0
 
-Script Description: This script initializes the dash application for development on a local machine. 
+Last Update Project Version: 1.0.0
+
+Script Description: This script initializes the datadash dash application.
 
 Exceptional notes about this script:
 
@@ -37,7 +40,7 @@ from components.utils.config import cfg
 
 # Import Styles that _have_ to be CSS;
 external_stylesheets = [
-    "./assets/externalstylesheets/dynamic_styling.css"
+    "assets/externalstylesheets/styling.css"
 ]
 
 # Initialize Dash Application

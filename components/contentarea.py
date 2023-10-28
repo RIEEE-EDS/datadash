@@ -1,12 +1,15 @@
 """
 Module/Script Name: contentarea.py
+
 Author: M. W. Hefner
 
 Created: 7/01/2023
-Last Modified: 7/05/2023
+
+Last Modified: 10/28/2023
 
 Project: RIEEE DataDash
-Project Version Id: 1.0
+
+Last Update Project Version: 1.0.0
 
 Script Description: This script defines the style, layout, and callback functionality of the contentarea.
 
@@ -34,23 +37,12 @@ import components.utils.constants as d
 import components.utils.sqlconnection as sqlconnection
 
 # STYLES (CSS DICT)
-styles = {
+dynamic_styles = {
     'componet' : {
         'max-width': str(d.content_max_width) + "px",
-        'height' : '100%',
-        'margin': '0 auto',
         'padding-top': d.header_height,
-        'background': 'linear-gradient(to right, transparent, black, transparent)',
-
-        # organize application display containers and other content
-        'display' : 'flex',
-        'flex-direction' : 'column',
-        'align-tiems' : 'center',
-        'overflow-y' : 'visible'
     }
 }
-
-
 
 # Render different content dependent upon login
 def authorizedContent(userIsSignedIn, UID, userRole) :
@@ -98,7 +90,7 @@ def authorizedContent(userIsSignedIn, UID, userRole) :
 def layout(userIsSignedIn, UID, userRole) :
     return dash.html.Div(
         id = component_id,
-        style = styles['componet'],
+        style = dynamic_styles['componet'],
         children = authorizedContent(userIsSignedIn, UID, userRole)
     )
 

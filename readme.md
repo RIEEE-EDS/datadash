@@ -1,5 +1,9 @@
 # RIEEE DataDash
 
+## Version 1.0.0 
+
+**Release Date: October 30th, 2023**
+
 RIEEE DataDash is a lightweight, open-source, two-factor secure web application platform purpose-built to facilitate the innovative research of Research Institute of Environment, Energy, and Economics partners here at AppState.
 
 With DataDash, RIEEE has developed full-stack capacity for secure, highly interactive web applications for research - no expensive or restrictive third-party software licenses required, and no strategic classroom-freemium model.
@@ -16,7 +20,7 @@ RIEEE also hopes to expand data science competency on campus and significantly l
 
 - **Digital accessibility policy?** Ask Jeff if he knows anything about complying with https://policy.appstate.edu/Digital_Accessibility
 
-## Instructions
+## Instructions for Local Development
 
 1. Clone the repository:
 
@@ -27,7 +31,7 @@ git https://github.com/mwhefner/datadash.git
 2. Navigate to the project directory:
 
 ```shell
-cd DataDash-application
+cd datadash
 ```
 
 3. Install the required dependencies (optionally, into a virtual environment):
