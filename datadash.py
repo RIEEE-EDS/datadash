@@ -58,7 +58,8 @@ app.layout = dash.html.Div(
     children = [
         # A location object tracks the address bar url
         dash.dcc.Location(id='url'),
-
+        # A data component stores a hash to prevent memorization
+        dash.dcc.Store(data = secrets.token_hex(), id='memory'),
         # Secure div holder for main container
         dash.html.Div(id='secure-div')
     ],
@@ -73,9 +74,9 @@ app.layout = dash.html.Div(
 # The second input is to prevent memorization.
 @dash.callback(
     dash.Output('secure-div', 'children'),
-    dash.Output('url', 'hash'),
+    dash.Output('memory', 'data'),
     dash.Input('url', 'pathname'),
-    dash.State('url', 'hash'),
+    dash.State('memory', 'data'),
     cache_timeout = 0
 )
 def authorize(pathname, hash):
