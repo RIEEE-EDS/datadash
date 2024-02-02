@@ -27,9 +27,22 @@ This Dash application was created using the template provided by the Research In
 
 """
 
-# !!! IMPORTANT: CHANGE TO FALSE BEFORE PUSHING !!!
-LOCAL_DEVELOPMENT = False
-# !!! IMPORTANT: CHANGE TO FALSE BEFORE PUSHING !!!
+import os 
+
+if 'REDIS_URL' in os.environ:
+
+    # RUNNING ON SERVER
+
+    LOCAL_DEVELOPMENT = False
+
+else:
+
+    # RUNNING ON A LOCAL MACHINE FOR DEVELOPMENT
+
+    # NOTE: MUST BE CONNECTED TO APP'S VPN FOR THIS TO ACTUALLY DELIVER
+    # THE APPLICATION'S CONTENTS TO THE BROWSER.
+
+    LOCAL_DEVELOPMENT = True
 
 # Import Dependencies
 import dash
