@@ -1,11 +1,11 @@
 """
 Module/Script Name: datadash.py
 
-Author: M. W. Hefner
+Author: M. W. Hefner, Michael Erb
 
 Created: 7/01/2023
 
-Last Modified: 10/28/2023
+Last Modified: 4/3/2025
 
 Project: RIEEE DataDash
 
@@ -15,20 +15,28 @@ Script Description: This script initializes the datadash dash application.
 
 Exceptional notes about this script:
 
-1. This script is for development on a local machine: after loading into a python environment with the dependencies in requirements.txt, found in this directory, installed, run this script to run the application server on local host at port 8050.
+1. This script is for development on a local machine: after loading into a
+python environment with the dependencies in requirements.txt, found in this
+directory, installed, run this script to run the application server on local
+host at port 8050.
 
-2. While there is at least one external style sheet, most styling is intentionally left in python just to keep things mostly unilingual.  Unfortunately this does limit the ability of certain IDEs' ability to assist and debug.
+2. While there is at least one external style sheet, most styling is
+intentionally left in python just to keep things mostly unilingual.
+Unfortunately this does limit the ability of certain IDEs' ability to assist
+and debug.
 
 Callback methods: 0
 
 ~~~
 
-This Dash application was created using the template provided by the Research Institute for Environment, Energy, and Economics at Appalachian State University.
+This Dash application was created using the template provided by the Research
+Institute for Environment, Energy, and Economics at Appalachian State
+University.
 
 """
 
 import os 
-
+"""
 if 'REDIS_URL' in os.environ:
 
     # RUNNING ON SERVER
@@ -43,6 +51,8 @@ else:
     # THE APPLICATION'S CONTENTS TO THE BROWSER.
 
     LOCAL_DEVELOPMENT = True
+"""
+LOCAL_DEVELOPMENT = False
 
 # Import Dependencies
 import dash
